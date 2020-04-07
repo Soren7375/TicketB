@@ -1,0 +1,17 @@
+﻿@model List<BuyingTickets.Models.Ticket>
+    <form method="post">
+        @foreach (var item in Model)
+        {
+
+            <div class="border border-dark rounded ">
+                <div class="d-inline-block"><b>Train №:</b>@item.TrainNumber</div>
+                <div class="d-inline-block">@item.StartStation</div>
+                <div class="d-inline-block">- @item.EndStation</div>
+                <div class="d-inline-block"><b>Car:</b>@item.CarNumber</div>
+                <div class="d-inline-block"><b>Seat:</b>@item.SeatNumber</div>
+                <div class="d-inline-block"><b>Arivale:</b>@item.ArivaleDateTime</div>
+                <div class="d-inline-block"><b>Depature:</b>@item.DepatureDateTime</div>
+            </div>
+        }
+        <input type="submit" value="Buy">
+    </form>

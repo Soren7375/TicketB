@@ -1,0 +1,32 @@
+﻿@model IEnumerable<BuyingTickets.Models.DataTransferModel.SeatByTrain>
+<div class="d-inline-block">
+
+    @{
+        var cars = Model.Select(i => i.CarId).Distinct().ToList();
+        var count = cars.Count();
+    }
+
+    @for (int i = 1; i <= count; i++)
+    {
+
+        <div class="d-inline-block">
+                @{ var list = Model.Where(c => c.CarId == cars[i - 1]).Select(s => s.SeatNumber).ToList();}
+                @Ajax.ActionLink(i.ToString(), "SeatsByCar", new { @carId = cars[i - 1], @carNumber = i, @seatsNumbers = string.Join(";", list) },
+                        new AjaxOptions
+                        {
+                            UpdateTargetId = "SeatsPick",
+                            LoadingElementId="loading"
+
+                        }, new { @class = "d-inline-block btn btn-outline-dark border border-dark rounded "})
+        </div>
+    }
+</div>
+<div class="form-group" id="SeatsPick">
+
+</div>
+<div class="form-group" id="SelectTicket">
+
+</div>
+<div class="spinner-border" role="status" id="loading" style="display:none">
+    <span class="sr-only">Loading...</span>
+</div>

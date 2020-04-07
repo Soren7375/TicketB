@@ -1,0 +1,62 @@
+﻿
+
+@{
+    ViewBag.Title = "Search trains";
+}
+
+@model BuyingTickets.Models.TrainPickInfo
+
+    <script src="~/Scripts/autocomplete.js">
+        var countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla"]
+        autocomplete(document.getElementById("InputStartStation"), countries);
+    </script>
+
+    <div class="d-flex justify-content-center">
+        @using (Ajax.BeginForm("TrainsByRoute", new AjaxOptions
+        {
+            UpdateTargetId = "trainPickInfo",
+            HttpMethod = "Post",
+            LoadingElementId = "loading"
+
+        }))
+        {
+        <form class="justify-content-center" onsubmit="return validate()" autocomplete="off">
+            <div><h2>Search trains</h2></div>
+            <div class="form-group d-inline-block">
+                <label for="InputStartStation">Start Station</label>
+                @Html.TextBoxFor(model => model.StartStation, new { @class = "form-control mycontrol", @id = "InputStartStation" })
+            </div>
+            <button type="button" id="swap-button" class="d-inline-block swap-button" onclick="changeStation()" style="margin-right:1rem">
+                <svg class="bi bi-arrow-left-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.146 7.646a.5.5 0 01.708 0l3 3a.5.5 0 010 .708l-3 3a.5.5 0 01-.708-.708L12.793 11l-2.647-2.646a.5.5 0 010-.708z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M2 11a.5.5 0 01.5-.5H13a.5.5 0 010 1H2.5A.5.5 0 012 11zm3.854-9.354a.5.5 0 010 .708L3.207 5l2.647 2.646a.5.5 0 11-.708.708l-3-3a.5.5 0 010-.708l3-3a.5.5 0 01.708 0z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M2.5 5a.5.5 0 01.5-.5h10.5a.5.5 0 010 1H3a.5.5 0 01-.5-.5z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="form-group d-inline-block">
+                <label for="InputEndStation">End Station</label>
+                @Html.TextBoxFor(model => model.EndStation, new { @class = "form-control mycontrol", @id = "InputEndStation" })
+            </div>
+            <div class="form-group">
+                <label for="InputDate">Date</label>
+                @Html.TextBoxFor(model => model.Date, new { @type = "date", @class = "form-control datepicker", @id = "InputDate" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" onsubmit="return validate()">
+            </div>
+            <div class="spinner-border" role="status" id="loading" style="display:none">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div id="trainPickInfo" class="form-group d-inline-block" style="width:auto;">
+                @*<table id="trainPickInfo" class="table table-bordered table-responsive table-hover" style="width:auto;"></table>*@
+            </div>
+            @*<div class="form-group" style="width:auto;" id="SeatsPick">
+
+            </div>*@
+        </form>
+        }
+        
+    </div>
+
+
+

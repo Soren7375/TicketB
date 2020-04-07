@@ -1,0 +1,51 @@
+﻿@model IEnumerable<BuyingTickets.Models.TrainsByRoute>
+        <table class="table table-bordered table-responsive table-hover" style="width:100%;border-color:darksalmon">
+            <tr>
+                <th>Train № </th>
+                <th>Route </th>
+                <th>Arrivale / Depature </th>
+                <th>Seats type</th>
+                <th>Seats available</th>
+            </tr>
+            @foreach (var train in @Model.OrderBy(t => t.ArrivaleDateTime).ToList())
+            {
+        <tr>
+            @{int rowSpan = train.SeatsType.Count() + 1;}
+            <td rowspan="@rowSpan">@train.TrainNumber</td>
+            <td rowspan="@rowSpan">@train.RouteName</td>
+            <td rowspan="@rowSpan">@train.ArrivaleDateTime <br> @train.DepatureDateTime</td>
+        </tr>
+            for (int i = 0; i < train.Seats.Count(); i++)
+            {
+        <tr>
+            <td>
+                <div>@train.SeatsType[i]</div>
+            </td>
+            <td>
+                <button type="button" class="btn btn-outline-dark d-inline-block">
+                    @Ajax.ActionLink(train.Seats[i].ToString(), "SeatsByTrain", 
+                        new { TrainId = train.TrainId, 
+                                TrainNumber = train.TrainNumber,
+                                ArrivaleDateTime = train.ArrivaleDateTime, 
+                                DepatureDateTime = train.DepatureDateTime,  
+                                CarType = train.SeatsType[i].ToString()},
+                        new AjaxOptions { UpdateTargetId = "trainPickInfo",
+                                            HttpMethod = "Post",
+                                            LoadingElementId = "loading"}) 
+                </button>
+            </td>
+        </tr>
+            }
+            }
+            <tr>
+                <tb>
+                    <div class="spinner-border" role="status" id="loading" style="display:none">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </tb>
+            </tr>
+</table>
+
+        
+
+

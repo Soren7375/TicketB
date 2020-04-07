@@ -1,0 +1,22 @@
+﻿@model List<string>
+</br>
+<div class="d-inline-block border border-dark rounded ">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            @foreach (var seat in Model)
+            {
+
+                @Ajax.ActionLink(seat, "SelectTicket", new { @seatNumber = seat},
+                    new AjaxOptions
+                    {
+                        UpdateTargetId = "SelectTicket",
+                    }, new { @class = "col-sm btn btn-outline-dark rounded " })
+            
+            }
+            </div>
+        </div>
+    </div>
+
+
+
+
